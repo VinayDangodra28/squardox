@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-sd-bg: #070707;
+  --color-sd-primary: #FFFFFF;
+  --color-sd-lime: #DFFF00;
+  --color-sd-coral: #FF5E5B;
+  --color-sd-blue: #00D4FF;
+
+  --font-bebas: 'Bebas Neue', display;
+  --font-space: 'Space Grotesk', ui-sans-serif, sans-serif;
+  --font-inter: 'Inter', ui-sans-serif, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-sd-bg text-sd-primary font-inter antialiased overflow-x-hidden selection:bg-sd-lime selection:text-sd-bg;
+  }
+  
+  /* Hide standard scrollbar for cleaner cinematic look */
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+}
