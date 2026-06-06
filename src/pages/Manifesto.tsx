@@ -9,26 +9,28 @@ export default function Manifesto() {
     offset: ["start start", "end end"]
   });
 
-  // Overall scroll height increased to 1500vh to make stages stay longer
+  // Overall scroll height increased to 2000vh for more breathing room
 
-  // Intro Phase (0 to 0.12)
-  const introOpacity = useTransform(scrollYProgress, [0.05, 0.12], [1, 0]);
-  const introY = useTransform(scrollYProgress, [0.05, 0.12], [0, -50]);
-  const introVis = useTransform(scrollYProgress, v => v < 0.14 ? "visible" : "hidden") as any;
+  // Intro Phase (0 to 0.10)
+  const introOpacity = useTransform(scrollYProgress, [0.05, 0.10], [1, 0]);
+  const introY = useTransform(scrollYProgress, [0.05, 0.10], [0, -50]);
+  const introVis = useTransform(scrollYProgress, v => v < 0.12 ? "visible" : "hidden") as any;
 
-  // Vault / Escaping Objects (0.01 to 0.18)
-  const esc1Y = useTransform(scrollYProgress, [0.02, 0.15], ["120vh", "-120vh"]);
-  const esc1R = useTransform(scrollYProgress, [0.02, 0.15], [0, -35]);
-  const esc1S = useTransform(scrollYProgress, [0.02, 0.15], [0.5, 1.8]);
+  // Escaping objects - separate visibility, stays visible longer
+  const escVis = useTransform(scrollYProgress, v => v < 0.22 ? "visible" : "hidden") as any;
 
-  const esc2Y = useTransform(scrollYProgress, [0.04, 0.18], ["120vh", "-120vh"]);
-  const esc2R = useTransform(scrollYProgress, [0.04, 0.18], [0, 45]);
-  const esc2X = useTransform(scrollYProgress, [0.04, 0.18], [0, 300]);
-  const esc2S = useTransform(scrollYProgress, [0.04, 0.18], [0.5, 1.5]);
+  const esc1Y = useTransform(scrollYProgress, [0.02, 0.18], ["120vh", "-120vh"]);
+  const esc1R = useTransform(scrollYProgress, [0.02, 0.18], [0, -35]);
+  const esc1S = useTransform(scrollYProgress, [0.02, 0.18], [0.5, 1.5]);
 
-  const esc3Y = useTransform(scrollYProgress, [0.03, 0.16], ["120vh", "-100vh"]);
-  const esc3R = useTransform(scrollYProgress, [0.03, 0.16], [0, 15]);
-  const esc3S = useTransform(scrollYProgress, [0.03, 0.16], [0.7, 1.3]);
+  const esc2Y = useTransform(scrollYProgress, [0.04, 0.20], ["120vh", "-120vh"]);
+  const esc2R = useTransform(scrollYProgress, [0.04, 0.20], [0, 45]);
+  const esc2X = useTransform(scrollYProgress, [0.04, 0.20], [0, 60]);
+  const esc2S = useTransform(scrollYProgress, [0.04, 0.20], [0.5, 1.3]);
+
+  const esc3Y = useTransform(scrollYProgress, [0.03, 0.19], ["120vh", "-100vh"]);
+  const esc3R = useTransform(scrollYProgress, [0.03, 0.19], [0, 15]);
+  const esc3S = useTransform(scrollYProgress, [0.03, 0.19], [0.7, 1.2]);
 
 
   // Experiments Glimpse (0.13 to 0.33) - smoother fades
@@ -49,19 +51,19 @@ export default function Manifesto() {
   const colVis = useTransform(scrollYProgress, v => v > 0.53 && v < 0.77 ? "visible" : "hidden") as any;
   const colGap = useTransform(scrollYProgress, [0.55, 0.75], [4, 60]);
 
-  // Archive Glimpse (0.76 to 0.94) - wider range, stays longer
-  const arcOpacity = useTransform(scrollYProgress, [0.76, 0.82, 0.90, 0.94], [0, 1, 1, 0]);
-  const arcScale = useTransform(scrollYProgress, [0.76, 0.94], [0.95, 1.05]);
-  const arcVis = useTransform(scrollYProgress, v => v > 0.74 && v < 0.96 ? "visible" : "hidden") as any;
-  const arcPersp = useTransform(scrollYProgress, [0.76, 0.94], [50, 15]);
+  // Archive Glimpse (0.76 to 0.92) - wider range, stays longer
+  const arcOpacity = useTransform(scrollYProgress, [0.76, 0.82, 0.88, 0.92], [0, 1, 1, 0]);
+  const arcScale = useTransform(scrollYProgress, [0.76, 0.92], [0.95, 1.05]);
+  const arcVis = useTransform(scrollYProgress, v => v > 0.74 && v < 0.94 ? "visible" : "hidden") as any;
+  const arcPersp = useTransform(scrollYProgress, [0.76, 0.92], [50, 15]);
 
-  // Contact / End (0.90 to 1.0) - appears smoothly, stays long
-  const conOpacity = useTransform(scrollYProgress, [0.90, 0.94], [0, 1]);
-  const conVis = useTransform(scrollYProgress, v => v > 0.88 ? "visible" : "hidden") as any;
-  const conY = useTransform(scrollYProgress, [0.90, 1], [50, 0]);
+  // Contact / End (0.86 to 1.0) - appears earlier, stays much longer
+  const conOpacity = useTransform(scrollYProgress, [0.86, 0.93], [0, 1]);
+  const conVis = useTransform(scrollYProgress, v => v > 0.84 ? "visible" : "hidden") as any;
+  const conY = useTransform(scrollYProgress, [0.86, 1], [50, 0]);
 
   return (
-    <div ref={containerRef} className="relative bg-sd-bg h-[1500vh]">
+    <div ref={containerRef} className="relative bg-sd-bg h-[2000vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
         
         {/* PHASE 0: Intro & Escaping Projects */}
@@ -90,15 +92,15 @@ export default function Manifesto() {
         </motion.div>
 
         {/* Escaping Projects Animation */}
-        <motion.div style={{ y: esc1Y, rotate: esc1R, scale: esc1S, visibility: introVis }} className="absolute left-[5%] md:left-[10%] z-20 w-32 md:w-64 h-48 md:h-80 bg-sd-coral rounded-sm shadow-2xl flex items-center justify-center border border-white/20">
-            <span className="font-bebas text-black text-3xl md:text-6xl opacity-40 -rotate-90 tracking-widest">CREATE</span>
+        <motion.div style={{ y: esc1Y, rotate: esc1R, scale: esc1S, visibility: escVis }} className="absolute left-[5%] md:left-[10%] z-20 w-24 sm:w-32 md:w-64 h-36 sm:h-48 md:h-80 bg-sd-coral rounded-sm shadow-2xl flex items-center justify-center border border-white/20">
+            <span className="font-bebas text-black text-2xl sm:text-3xl md:text-6xl opacity-40 -rotate-90 tracking-widest">CREATE</span>
         </motion.div>
-        <motion.div style={{ y: esc2Y, rotate: esc2R, x: esc2X, scale: esc2S, visibility: introVis }} className="absolute right-[5%] md:right-[15%] z-20 w-40 md:w-72 h-40 md:h-72 bg-sd-blue rounded-full shadow-2xl flex items-center justify-center blur-[1px]">
-            <span className="font-space font-bold text-black text-sm md:text-2xl opacity-40 uppercase tracking-widest">VISION</span>
+        <motion.div style={{ y: esc2Y, rotate: esc2R, x: esc2X, scale: esc2S, visibility: escVis }} className="absolute right-[5%] md:right-[15%] z-20 w-28 sm:w-40 md:w-72 h-28 sm:h-40 md:h-72 bg-sd-blue rounded-full shadow-2xl flex items-center justify-center blur-[1px]">
+            <span className="font-space font-bold text-black text-xs sm:text-sm md:text-2xl opacity-40 uppercase tracking-widest">VISION</span>
         </motion.div>
-        <motion.div style={{ y: esc3Y, rotate: esc3R, scale: esc3S, visibility: introVis }} className="absolute left-[10%] md:left-[35%] z-20 w-[160px] sm:w-[240px] md:w-[400px] h-[120px] sm:h-[180px] md:h-[300px] bg-sd-lime shadow-2xl flex flex-col justify-between p-3 sm:p-4 md:p-8">
-            <div className="w-full h-1 md:h-2 bg-black/20" />
-            <span className="font-bebas text-[32px] sm:text-[50px] md:text-[80px] leading-none text-black opacity-40 self-end">BRAND</span>
+        <motion.div style={{ y: esc3Y, rotate: esc3R, scale: esc3S, visibility: escVis }} className="absolute left-[5%] sm:left-[10%] md:left-[35%] z-20 w-[120px] sm:w-[160px] md:w-[400px] h-[80px] sm:h-[120px] md:h-[300px] bg-sd-lime shadow-2xl flex flex-col justify-between p-2 sm:p-3 md:p-8">
+            <div className="w-full h-0.5 sm:h-1 md:h-2 bg-black/20" />
+            <span className="font-bebas text-[24px] sm:text-[32px] md:text-[80px] leading-none text-black opacity-40 self-end">BRAND</span>
         </motion.div>
 
         {/* PHASE 1: Experiments */}
@@ -115,12 +117,12 @@ export default function Manifesto() {
           </motion.div>
           
           <div className="relative z-10 flex flex-col items-center text-center">
-              <p className="font-space tracking-widest uppercase text-sd-coral text-sm md:text-base mb-6 bg-sd-bg/50 px-4 py-1 rounded-full backdrop-blur-md border border-white/10">Manifesto 01</p>
-              <h2 className="font-bebas text-5xl md:text-[7vw] leading-none uppercase max-w-6xl mx-auto mb-10 text-white drop-shadow-2xl">
+              <p className="font-space tracking-widest uppercase text-sd-coral text-xs sm:text-sm md:text-base mb-4 sm:mb-6 bg-sd-bg/50 px-3 sm:px-4 py-1 rounded-full backdrop-blur-md border border-white/10">Manifesto 01</p>
+              <h2 className="font-bebas text-[10vw] sm:text-5xl md:text-[7vw] leading-none uppercase max-w-6xl mx-auto mb-6 sm:mb-10 text-white drop-shadow-2xl">
                   We don't sell websites.<br/>
                   <span className="text-sd-coral">We build digital first impressions.</span>
               </h2>
-              <p className="font-space text-sm md:text-base uppercase tracking-widest text-white/30 border border-dashed border-white/20 px-6 py-3 rounded-full">
+              <p className="font-space text-xs sm:text-sm md:text-base uppercase tracking-widest text-white/30 border border-dashed border-white/20 px-4 sm:px-6 py-2 sm:py-3 rounded-full">
                 Experiments — Coming Soon
               </p>
           </div>
@@ -131,19 +133,19 @@ export default function Manifesto() {
           style={{ opacity: capOpacity, scale: capScale, visibility: capVis }} 
           className="absolute inset-0 flex items-center justify-center z-30 px-4"
         >
-          <div className="absolute inset-0 flex flex-col justify-center gap-8 md:gap-16 opacity-10 pointer-events-none -rotate-3 overflow-hidden">
+          <div className="absolute inset-0 flex flex-col justify-center gap-6 md:gap-16 opacity-10 pointer-events-none -rotate-3 overflow-hidden">
              <motion.div style={{ x: capX1 }} className="whitespace-nowrap font-bebas text-[15vw] md:text-[10vw] tracking-wider text-sd-lime">BRANDING BRANDING BRANDING BRANDING BRANDING</motion.div>
              <motion.div style={{ x: capX2 }} className="whitespace-nowrap font-bebas text-[15vw] md:text-[10vw] tracking-wider text-white">EXPERIENCES EXPERIENCES EXPERIENCES EXPERIENCES</motion.div>
              <motion.div style={{ x: capX1 }} className="whitespace-nowrap font-bebas text-[15vw] md:text-[10vw] tracking-wider text-sd-lime">SOCIAL SOCIAL SOCIAL SOCIAL SOCIAL</motion.div>
           </div>
           
           <div className="relative z-10 flex flex-col items-center text-center">
-              <p className="font-space tracking-widest uppercase text-sd-lime text-sm md:text-base mb-6 bg-sd-bg/50 px-4 py-1 rounded-full backdrop-blur-md border border-white/10">Manifesto 02</p>
-              <h2 className="font-bebas text-5xl md:text-[7vw] leading-none uppercase max-w-6xl mx-auto mb-10 text-white drop-shadow-2xl">
+              <p className="font-space tracking-widest uppercase text-sd-lime text-xs sm:text-sm md:text-base mb-4 sm:mb-6 bg-sd-bg/50 px-3 sm:px-4 py-1 rounded-full backdrop-blur-md border border-white/10">Manifesto 02</p>
+              <h2 className="font-bebas text-[10vw] sm:text-5xl md:text-[7vw] leading-none uppercase max-w-6xl mx-auto mb-6 sm:mb-10 text-white drop-shadow-2xl">
                   We don't design posts.<br/>
                   <span className="text-sd-lime">We create reasons to stop scrolling.</span>
               </h2>
-              <p className="font-space text-sm md:text-base uppercase tracking-widest text-white/30 border border-dashed border-white/20 px-6 py-3 rounded-full">
+              <p className="font-space text-xs sm:text-sm md:text-base uppercase tracking-widest text-white/30 border border-dashed border-white/20 px-4 sm:px-6 py-2 sm:py-3 rounded-full">
                 Capabilities — Coming Soon
               </p>
           </div>
@@ -162,12 +164,12 @@ export default function Manifesto() {
           </motion.div>
 
           <div className="relative z-10 flex flex-col items-center text-center">
-              <p className="font-space tracking-widest uppercase text-sd-blue text-sm md:text-base mb-6 bg-sd-bg/50 px-4 py-1 rounded-full backdrop-blur-md border border-white/10">Manifesto 03</p>
-              <h2 className="font-bebas text-5xl md:text-[7vw] leading-none uppercase max-w-6xl mx-auto mb-10 text-white drop-shadow-2xl">
+              <p className="font-space tracking-widest uppercase text-sd-blue text-xs sm:text-sm md:text-base mb-4 sm:mb-6 bg-sd-bg/50 px-3 sm:px-4 py-1 rounded-full backdrop-blur-md border border-white/10">Manifesto 03</p>
+              <h2 className="font-bebas text-[10vw] sm:text-5xl md:text-[7vw] leading-none uppercase max-w-6xl mx-auto mb-6 sm:mb-10 text-white drop-shadow-2xl">
                   Not an agency.<br/>
                   <span className="text-sd-blue">A shared digital mind.</span>
               </h2>
-              <p className="font-space text-sm md:text-base uppercase tracking-widest text-white/30 border border-dashed border-white/20 px-6 py-3 rounded-full">
+              <p className="font-space text-xs sm:text-sm md:text-base uppercase tracking-widest text-white/30 border border-dashed border-white/20 px-4 sm:px-6 py-2 sm:py-3 rounded-full">
                 Collective — Coming Soon
               </p>
           </div>
@@ -189,12 +191,12 @@ export default function Manifesto() {
           />
 
           <div className="relative z-10 flex flex-col items-center text-center">
-              <p className="font-space tracking-widest uppercase text-neutral-300 text-sm md:text-base mb-6 bg-sd-bg/50 px-4 py-1 rounded-full backdrop-blur-md border border-white/10">Manifesto 04</p>
-              <h2 className="font-bebas text-5xl md:text-[7vw] leading-none uppercase max-w-6xl mx-auto mb-10 text-white drop-shadow-2xl">
+              <p className="font-space tracking-widest uppercase text-neutral-300 text-xs sm:text-sm md:text-base mb-4 sm:mb-6 bg-sd-bg/50 px-3 sm:px-4 py-1 rounded-full backdrop-blur-md border border-white/10">Manifesto 04</p>
+              <h2 className="font-bebas text-[10vw] sm:text-5xl md:text-[7vw] leading-none uppercase max-w-6xl mx-auto mb-6 sm:mb-10 text-white drop-shadow-2xl">
                   Everything we've ever touched.<br/>
                   <span className="text-neutral-500">Archived.</span>
               </h2>
-              <p className="font-space text-sm md:text-base uppercase tracking-widest text-white/30 border border-dashed border-white/20 px-6 py-3 rounded-full">
+              <p className="font-space text-xs sm:text-sm md:text-base uppercase tracking-widest text-white/30 border border-dashed border-white/20 px-4 sm:px-6 py-2 sm:py-3 rounded-full">
                 Archive — Coming Soon
               </p>
           </div>
@@ -207,8 +209,8 @@ export default function Manifesto() {
         >
           <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, #FFFFFF 2px, transparent 2px)', backgroundSize: '60px 60px' }} />
           <div className="relative z-10 flex flex-col items-center text-center w-full max-w-sm md:max-w-none">
-              <p className="font-space tracking-widest uppercase text-sd-lime text-sm md:text-base mb-8">Let's talk</p>
-              <h2 className="font-bebas text-5xl sm:text-6xl md:text-[10vw] leading-none uppercase max-w-5xl mx-auto mb-16 text-white drop-shadow-2xl">
+              <p className="font-space tracking-widest uppercase text-sd-lime text-xs sm:text-sm md:text-base mb-6 sm:mb-8">Let's talk</p>
+              <h2 className="font-bebas text-[15vw] sm:text-5xl md:text-[10vw] leading-none uppercase max-w-5xl mx-auto mb-10 sm:mb-16 text-white drop-shadow-2xl">
                   Ready to build something?
               </h2>
               <Link to="/contact" className="w-full md:w-auto px-6 md:px-16 py-4 md:py-8 border-2 border-sd-lime text-sd-lime font-space uppercase tracking-widest font-bold hover:bg-sd-lime hover:text-black transition-all duration-300 text-sm sm:text-base md:text-2xl shadow-[0_0_40px_rgba(223,255,0,0.2)] hover:shadow-[0_0_60px_rgba(223,255,0,0.4)]">
